@@ -46,7 +46,7 @@ def login():
     except DBException as err:
         return local_make_response(False, {'message' : err.message})
     else:
-        return local_make_response(True, db.tokenNew(username))
+        return local_make_response(True, {'token' : db.tokenNew(username)})
 
 @userapi.route('/logout', methods = ['POST'])
 def logout():
