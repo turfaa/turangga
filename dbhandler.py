@@ -61,6 +61,11 @@ class DBHandler:
 
         self.c.execute('update user set password=%s where username = %s', (generate_password_hash(newPassword), username))
 
+    def userOwn(self, username):
+        self.c.execute('select map.id, map.url from map, own where own.username = %s and own.id = map.id', (username, ))
+
+        return self.c.fetchall()
+
     def tokenLookup(self, token):
         self.c.execute('select username from session where token = %s', (token,))
 
@@ -80,3 +85,48 @@ class DBHandler:
 
         self.c.execute('insert into session (username, token) value (%s, %s)', (username, token))
         return token
+
+    def urlLookup(self, short):
+        self.c.execute('select url from map where id = %s', (short, ))
+
+        if self.c.rowcount > 0:
+            return self.c.fetchone()[0]
+        else:
+            raise DBException('URL Not Found')
+
+    def urlNew(self, url, short = None, username = None, length = 3):
+        if short is None:
+            while(True):
+                try:
+                    short = randomString(length)
+                    _ = self.urlLookup(short)
+                except:
+                    break
+        else:
+            try:
+                _ = self.urlLookup(short)
+            except:
+                pass
+            else:
+                raise DBException('Short URL exists')
+
+        self.c.execute('insert into map (id, url) value (%s, %s)', (short, url))
+
+        if not(username is None):
+            self.c.execute('insert into own (username, id) value (%s, %s)', (username, short))
+
+        return short
+
+    def urlDelete(self, username, short):
+        self.c.execute('select username from own where id = %s', (short, ))
+
+        if self.c.rowcount == 0:
+            raise DBException('Not permitted')
+
+        usernameReal = self.c.fethone()[0]
+
+        if username != usernameReal:
+            raise DBException('Not permitted')
+
+        self.c.execute('delete from own where id = %s', (short, ))
+        self.c.execute('delete from map where id = %s', (short, ))

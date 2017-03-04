@@ -71,3 +71,24 @@ def changePassword():
         return local_make_response(False, {'message' : err.message})
     else:
         return local_make_response(True)
+
+@userapi.route('/showurl', methods = ['POST'])
+def showUrl():
+    if not ('token' in request.form):
+        return local_make_response(False, {'message' : 'Invalid data'})
+
+    token = request.form['token']
+
+    db = DBHandler()
+    try:
+        username = db.tokenLookup(token)
+        urls = db.userOwn(username)
+    except DBException as err:
+        return local_make_response(False, {'message' : err.message})
+    else:
+        urls = list(urls)
+
+        for i in range(len(urls)):
+            urls[i] = list(urls[i])
+
+        return local_make_response(True, {'url' : urls})
