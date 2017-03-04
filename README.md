@@ -7,7 +7,15 @@ Turangga is a simple and ligthweight API Server for URL Shorterner. The name "Tu
 
 ## Installing
 - Make sure that you have installed Python 3.
-- Install the dependencies with `pip install -r requirements.txt`
+- Install the dependencies with `pip install -r requirements.txt`.
+- Create a MySQL database based on `database.sql`.
+- Make a file named `myconfig.py` with these configuration and complete it with the previously created MySQL database.
+```python
+host = ''
+user = ''
+password = ''
+database = ''
+```
 
 ## Running
 - Run `python app.py`
