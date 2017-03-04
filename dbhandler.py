@@ -123,7 +123,7 @@ class DBHandler:
         if self.c.rowcount == 0:
             raise DBException('Not permitted')
 
-        usernameReal = self.c.fethone()[0]
+        usernameReal = self.c.fetchone()[0]
 
         if username != usernameReal:
             raise DBException('Not permitted')

@@ -1,5 +1,5 @@
 # Turangga, a lightweight URL Shorterner
-Turangga is a simple and ligthweight API Server for URL Shorterner. The name "Turangga" means "horse" in Sundanese, hoping that this will serve as fast as possible.
+Turangga is a simple and ligthweight API Server and Resolver for URL Shorterner. The name "Turangga" means "horse" in Sundanese, hoping that this will serve as fast as possible.
 
 ## Requirements
 - Python 3.
@@ -11,10 +11,16 @@ Turangga is a simple and ligthweight API Server for URL Shorterner. The name "Tu
 - Create a MySQL database based on `database.sql`.
 - Make a file named `myconfig.py` with these configuration and complete it with the previously created MySQL database.
 ```python
-host = ''
-user = ''
-password = ''
-database = ''
+baseurl = ''    # Your resolver base URL. The default is 'http://yourdomain.com/s', but can be modified in app.py when stating url prefix for resolver Blueprint
+
+host = ''       # Your MySQL host
+user = ''       # Your MySQL user
+password = ''   # Your MySQL password
+database = ''   # Your MySQL database name
+
+if baseurl[len(baseurl)-1] != '/':
+    baseurl += '/'
+
 ```
 
 ## Running

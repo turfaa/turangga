@@ -1,9 +1,13 @@
 from flask import Flask
+
 from userapi import userapi
+from urlapi import urlapi
+
 from util import local_make_response
 
 app = Flask(__name__)
 app.register_blueprint(userapi, url_prefix = '/user')
+app.register_blueprint(urlapi, url_prefix = '/url')
 
 @app.errorhandler(404)
 def error404(e):

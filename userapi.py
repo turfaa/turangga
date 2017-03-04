@@ -6,6 +6,8 @@ from dbhandler import DBException
 
 from util import local_make_response
 
+from myconfig import baseurl
+
 userapi = Blueprint('userapi', __name__)
 
 @userapi.route('/register', methods = ['POST'])
@@ -90,5 +92,6 @@ def showUrl():
 
         for i in range(len(urls)):
             urls[i] = list(urls[i])
+            urls[i][0] = baseurl + urls[i][0]
 
         return local_make_response(True, {'url' : urls})
