@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS `own`;
 CREATE TABLE `own` (
   `username` varchar(32) NOT NULL,
   `id` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`username`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
