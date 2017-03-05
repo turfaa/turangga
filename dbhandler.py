@@ -62,7 +62,7 @@ class DBHandler:
         self.c.execute('update user set password=%s where username = %s', (generate_password_hash(newPassword), username))
 
     def userOwn(self, username):
-        self.c.execute('select map.id, map.url from map, own where own.username = %s and own.id = map.id', (username, ))
+        self.c.execute('select map.id, map.url, map.visit from map, own where own.username = %s and own.id = map.id', (username, ))
 
         return self.c.fetchall()
 
@@ -130,3 +130,6 @@ class DBHandler:
 
         self.c.execute('delete from own where id = %s', (short, ))
         self.c.execute('delete from map where id = %s', (short, ))
+
+    def urlVisit(self, short):
+        self.c.execute('update map set visit = visit + 1 where id = %s', (short, ))

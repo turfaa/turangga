@@ -16,6 +16,7 @@ def resolve(short):
 
     try:
         redir = db.urlLookup(short)
+        db.urlVisit(short)
     except DBException as err:
         return err.message
     else:

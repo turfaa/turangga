@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `map`;
 CREATE TABLE `map` (
   `id` varchar(100) NOT NULL,
   `url` text NOT NULL,
+  `visit` integer NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -38,7 +39,7 @@ DROP TABLE IF EXISTS `own`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `own` (
   `username` varchar(32) NOT NULL,
-  `id` varchar(100) DEFAULT NULL,
+  `id` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
