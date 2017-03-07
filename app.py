@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.register_blueprint(userapi, url_prefix = '/user')
 app.register_blueprint(urlapi, url_prefix = '/url')
 app.register_blueprint(resolver, url_prefix = '/s')
+app.register_blueprint(line, url_prefix = '/line')
 
 @app.errorhandler(404)
 def error404(e):
