@@ -43,9 +43,12 @@ def create(local = False, url = None, short = None, token = None):
     else:
         username = None
 
+    if not(short.isalnum()):
+        return local_make_response(False, {'message' : 'Slug must be alphanumeric.'})
+
     db = DBHandler()
 
-    if not validators.url(url):
+    if (not validators.url(url)) | ('turang.ga' in url):
         return local_make_response(False, {'message' : 'URL is not valid.'})
 
     newUrl = baseurl
