@@ -44,9 +44,11 @@ def callback():
         splitted = event.message.text.split()
         if splitted[0] == '/baru':
             response = baru(splitted)
+        elif (splitted[0] == '/help') | (splitted[0] == 'help'):
+            response = 'Halo kawan!\n\nUntuk memendekkan URL, silakan tulis :\n/baru <url> : memendekkan <url> menjadi http://turang.ga/s/<randomstring>\n/baru <url> <slug> : memendekkan <url> menjadi http://turang,ga/s/<slug>\n\nContoh :\n/baru https://turfa.cf/ turfa : http://turang.ga/s/turfa akan mengarah ke https://turfa.cf/\n\nSelamat memendekkan Kawan :D:D:D'
         else:
-            response = 'Halo kawan!\nUntuk memendekkan URL, silakan tulis :\n/baru <url> : memendekkan <url> menjadi http://turang.ga/s/<randomstring>\n/baru <url> <slug> : memendekkan <url> menjadi http://turang,ga/s/<slug>\n\nContoh :\n/baru https://turfa.cf/ turfa : http://turang.ga/s/turfa akan mengarah ke https://turfa.cf/\n\nSelamat memendekkan (moon grin)(moon grin)(moon grin)'
-            
+            response = 'Maaf kawan, perintah tidak ditemukan. Coba ketik "help" untuk bantuan, Kawan :)'
+
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=response)
