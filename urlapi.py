@@ -43,8 +43,9 @@ def create(local = False, url = None, short = None, token = None):
     else:
         username = None
 
-    if not(short.isalnum()):
-        return local_make_response(False, {'message' : 'Slug must be alphanumeric.'})
+    if not (short is None):
+        if not(short.isalnum()):
+            return local_make_response(False, {'message' : 'Slug must be alphanumeric.'})
 
     db = DBHandler()
 
