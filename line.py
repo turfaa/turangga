@@ -40,10 +40,13 @@ def callback():
         if not isinstance(event.message, TextMessage):
             continue
 
+        print('{}: {}'.format(event.source.user_id, event.message.text))
         splitted = event.message.text.split()
         if splitted[0] == '/baru':
             response = baru(splitted)
-
+        else:
+            response = 'Halo kawan!\nUntuk memendekkan URL, silakan tulis :\n/baru <url> : memendekkan <url> menjadi http://turang.ga/s/<randomstring>\n/baru <url> <slug> : memendekkan <url> menjadi http://turang,ga/s/<slug>\n\nContoh :\n/baru https://turfa.cf/ turfa : http://turang.ga/s/turfa akan mengarah ke https://turfa.cf/\n\nSelamat memendekkan (moon grin)(moon grin)(moon grin)'
+            
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=response)
