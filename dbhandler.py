@@ -31,7 +31,7 @@ class DBHandler:
         self.conn.close()
 
     def userExist(self, username):
-        self.c.execute('select 1 from user where username = %s', (username, ))
+        self.c.execute('select 1 from user where username = binary %s', (username, ))
         return self.c.rowcount > 0
 
     def userCreate(self, username, password):
@@ -44,14 +44,14 @@ class DBHandler:
         if not(self.userExist(username)):
             raise DBException('Username/password is wrong.')
 
-        self.c.execute('select password from user where username = %s', (username, ))
+        self.c.execute('select password from user where username = binary %s', (username, ))
         realPassword = self.c.fetchone()[0]
 
         if not(check_password_hash(realPassword, password)):
             raise DBException('Username/password is wrong.')
 
     def userLogout(self, token):
-        self.c.execute('delete from session where token = %s', (token, ))
+        self.c.execute('delete from session where token = binary %s', (token, ))
 
     def userChangePassword(self, username, oldPassword, newPassword):
         try:
@@ -59,15 +59,15 @@ class DBHandler:
         except DBException as err:
             raise err
 
-        self.c.execute('update user set password=%s where username = %s', (generate_password_hash(newPassword), username))
+        self.c.execute('update user set password=%s where username = binary %s', (generate_password_hash(newPassword), username))
 
     def userOwn(self, username):
-        self.c.execute('select map.id, map.url, map.visit from map, own where own.username = %s and own.id = map.id', (username, ))
+        self.c.execute('select map.id, map.url, map.visit from map, own where own.username = binary %s and binary own.id = binary map.id', (username, ))
 
         return self.c.fetchall()
 
     def tokenLookup(self, token):
-        self.c.execute('select username from session where token = %s', (token,))
+        self.c.execute('select username from session where token = binary %s', (token,))
 
         if self.c.rowcount > 0:
             return self.c.fetchone()[0]
@@ -87,7 +87,7 @@ class DBHandler:
         return token
 
     def urlLookup(self, short):
-        self.c.execute('select url from map where id = %s', (short, ))
+        self.c.execute('select url from map where id = binary %s', (short, ))
 
         if self.c.rowcount > 0:
             return self.c.fetchone()[0]
@@ -118,7 +118,7 @@ class DBHandler:
         return short
 
     def urlDelete(self, username, short):
-        self.c.execute('select username from own where id = %s', (short, ))
+        self.c.execute('select username from own where id = binary %s', (short, ))
 
         if self.c.rowcount == 0:
             raise DBException('Not permitted')
@@ -128,8 +128,8 @@ class DBHandler:
         if username != usernameReal:
             raise DBException('Not permitted')
 
-        self.c.execute('delete from own where id = %s', (short, ))
-        self.c.execute('delete from map where id = %s', (short, ))
+        self.c.execute('delete from own where id = binary %s', (short, ))
+        self.c.execute('delete from map where id = binary %s', (short, ))
 
     def urlVisit(self, short):
-        self.c.execute('update map set visit = visit + 1 where id = %s', (short, ))
+        self.c.execute('update map set visit = visit + 1 where id = binary %s', (short, ))
