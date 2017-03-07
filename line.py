@@ -23,8 +23,6 @@ parser = WebhookParser(channel_secret)
 
 @line.route("/", methods=['POST'])
 def callback():
-    db = dbhandler()
-
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
 
